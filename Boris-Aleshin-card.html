@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Борис Алёшин</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Layout: one narrow card, navy header band with portrait, then contacts, expertise, book. Mobile-first, centred column on desktop. */
+:root{
+  --bg:#efe9de; --card:#fbf8f2; --ink:#1f2a3d; --muted:#5d6676;
+  --navy:#1f3864; --navy-ink:#f5efe3; --gold:#b08d57; --gold-ink:#7a5c2e;
+  --line:#e2d8c6; --chip:#f2ebde;
+  --display:'PT Serif', Georgia, 'Times New Roman', serif;
+  --text:'PT Sans', 'Trebuchet MS', Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1726; --card:#16213a; --ink:#ece5d8; --muted:#a9b2c3;
+  --navy:#22406f; --navy-ink:#f5efe3; --gold:#c9a46a; --gold-ink:#d9b57a;
+  --line:#27365a; --chip:#1d2b49; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1726; --card:#16213a; --ink:#ece5d8; --muted:#a9b2c3;
+  --navy:#22406f; --navy-ink:#f5efe3; --gold:#c9a46a; --gold-ink:#d9b57a;
+  --line:#27365a; --chip:#1d2b49; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--text);font-size:16px;line-height:1.5;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:24px}
+.card{max-width:480px;margin:0 auto;background:var(--card);border-radius:20px;overflow:hidden;box-shadow:0 10px 40px rgba(20,30,50,.12)}
+.head{background:var(--navy);color:var(--navy-ink);padding:28px 24px 26px;position:relative}
+.lang{position:absolute;top:16px;right:16px;display:flex;border:1px solid rgba(245,239,227,.35);border-radius:999px;overflow:hidden}
+.lang button{background:none;border:0;color:var(--navy-ink);font:700 12px/1 var(--text);letter-spacing:.08em;padding:7px 11px;cursor:pointer;opacity:.7}
+.lang button[aria-pressed="true"]{background:var(--gold);color:#14213d;opacity:1}
+.lang button:focus-visible,.btn:focus-visible,.copy:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.photo{width:112px;height:112px;border-radius:50%;border:3px solid var(--gold);background:rgba(245,239,227,.08);
+  display:grid;place-items:center;text-align:center;font:400 12px/1.3 var(--text);color:rgba(245,239,227,.75);margin-bottom:18px}
+.photo b{display:block;font:700 30px/1 var(--display);color:var(--gold);margin-bottom:4px}
+h1{font:700 30px/1.15 var(--display);margin:0;text-wrap:balance}
+.role{margin:8px 0 0;font-size:16px;color:rgba(245,239,227,.86);text-wrap:balance}
+.geo{margin:14px 0 0;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--line)}
+.facts div{padding:16px 10px;text-align:center;min-width:0}
+.facts div+div{border-left:1px solid var(--line)}
+.facts strong{display:block;font:700 22px/1.1 var(--display);color:var(--navy)}
+:root[data-theme="dark"] .facts strong{color:var(--gold-ink)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .facts strong{color:var(--gold-ink)}}
+.facts span{font-size:12.5px;color:var(--muted);line-height:1.3;display:block;margin-top:4px}
+section{padding:22px 24px;border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:0}
+h2{font:700 12px/1 var(--text);letter-spacing:.12em;text-transform:uppercase;color:var(--gold-ink);margin:0 0 14px}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px 16px;border-radius:12px;border:0;
+  background:var(--gold);color:#14213d;font:700 16px/1 var(--text);cursor:pointer;text-decoration:none}
+.btn:hover{filter:brightness(1.05)}
+.btn.ghost{background:var(--chip);color:var(--ink);font-weight:700}
+.btn svg{width:18px;height:18px;flex:none}
+.links{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.rows{display:flex;flex-direction:column;gap:0;margin-top:16px}
+.row{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--line)}
+.row .k{font-size:12px;color:var(--muted);width:72px;flex:none}
+.row .v{flex:1;min-width:0;overflow-wrap:anywhere;user-select:all;font-variant-numeric:tabular-nums}
+.ph{color:var(--muted);font-style:italic}
+.copy{background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:6px 9px;font:400 12px/1 var(--text);cursor:pointer}
+ul.help{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+ul.help li{display:flex;gap:12px;align-items:baseline}
+ul.help li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold);flex:none;transform:translateY(-1px)}
+.note{margin:14px 0 0;font-size:13.5px;color:var(--muted)}
+.book{display:grid;grid-template-columns:104px 1fr;gap:16px;align-items:start}
+.cover{aspect-ratio:2/3;max-width:100%;border-radius:6px;background:var(--navy);color:var(--navy-ink);padding:10px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 6px 16px rgba(20,30,50,.25)}
+.cover i{font:700 14px/1.15 var(--display);font-style:normal}
+.cover small{font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
+.book h3{font:700 20px/1.2 var(--display);margin:0 0 6px}
+.book p{margin:0 0 12px;font-size:14.5px;color:var(--muted)}
+.foot{text-align:center;font-size:12px;color:var(--muted);padding:18px 24px 22px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);background:var(--ink);color:var(--card);padding:10px 16px;border-radius:999px;font-size:14px}
+@media (max-width:360px){.facts strong{font-size:19px}.links{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:no-preference){.btn{transition:filter .15s}}
+</style>
+</head>
+<body>
+<main class="card">
+  <header class="head">
+    <div class="lang" role="group" aria-label="Language">
+      <button id="l-ru" aria-pressed="true" data-lang="ru">RU</button>
+      <button id="l-en" aria-pressed="false" data-lang="en">EN</button>
+    </div>
+    <div class="photo" aria-label="Photo placeholder"><div><b>БА</b><span data-i="photo">место для фото</span></div></div>
+    <h1 data-i="name">Борис Алёшин</h1>
+    <p class="role" data-i="role">Независимый советник по запуску горнорудных проектов в Африке</p>
+    <p class="geo" data-i="geo">Сьерра-Леоне · Уганда · Зимбабве · Южный Судан</p>
+  </header>
+
+  <div class="facts">
+    <div><strong>17+</strong><span data-i="f1">лет работы в Африке</span></div>
+    <div><strong>4</strong><span data-i="f2">страны проектов</span></div>
+    <div><strong>Au · ◇</strong><span data-i="f3">золото и алмазы</span></div>
+  </div>
+
+  <section aria-labelledby="h-contact">
+    <h2 id="h-contact" data-i="hContact">Связаться</h2>
+    <button class="btn" id="save" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+      <span data-i="save">Сохранить контакт</span>
+    </button>
+    <div class="links">
+      <a class="btn ghost" href="https://www.linkedin.com/in/boris-aleshin-mining-advisor" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn ghost" href="#" id="tg" target="_blank" rel="noopener">Telegram</a>
+    </div>
+    <div class="rows">
+      <div class="row"><span class="k" data-i="kPhone">Телефон</span><span class="v ph" id="v-phone">+___ ___ ___ __ __</span><button class="copy" data-copy="v-phone" data-i="copy">копировать</button></div>
+      <div class="row"><span class="k">E-mail</span><span class="v ph" id="v-mail">[e-mail]</span><button class="copy" data-copy="v-mail" data-i="copy">копировать</button></div>
+      <div class="row"><span class="k">WhatsApp</span><span class="v ph" id="v-wa">+___ ___ ___ __ __</span><button class="copy" data-copy="v-wa" data-i="copy">копировать</button></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-help">
+    <h2 id="h-help" data-i="hHelp">Чем помогаю</h2>
+    <ul class="help">
+      <li data-i="s1">Оценка рисков и проверка проекта на мошеннические схемы до первого платежа</li>
+      <li data-i="s2">Выбор стратегии входа в страну: через первое лицо, министерство или самостоятельно</li>
+      <li data-i="s3">Оптимизация бюджета и сроков запуска</li>
+      <li data-i="s4">Полевая безопасность и работа с местными командами</li>
+    </ul>
+    <p class="note" data-i="note">Горный инженер и специалист по оценке бизнеса. Я консультирую и не управляю проектом за клиента.</p>
+  </section>
+
+  <section aria-labelledby="h-book">
+    <h2 id="h-book" data-i="hBook">Книга</h2>
+    <div class="book">
+      <div class="cover" aria-label="Book cover placeholder"><small data-i="coverPh">обложка</small><i data-i="bookT">Африка без иллюзий</i><small data-i="coverA">Б. Алёшин</small></div>
+      <div>
+        <h3 data-i="bookT">Африка без иллюзий</h3>
+        <p data-i="bookD">Написана по личному опыту, а не по чужим отчётам: о том, как избежать ошибок, которые в Африке обходятся слишком дорого.</p>
+        <a class="btn ghost" href="#" id="buy" target="_blank" rel="noopener" data-i="buy">Где купить</a>
+      </div>
+    </div>
+  </section>
+
+  <p class="foot">© Boris Alyoshin / Борис Алёшин, 2026</p>
+</main>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const T={
+ ru:{photo:"место для фото",name:"Борис Алёшин",role:"Независимый советник по запуску горнорудных проектов в Африке",geo:"Сьерра-Леоне · Уганда · Зимбабве · Южный Судан",
+  f1:"лет работы в Африке",f2:"страны проектов",f3:"золото и алмазы",hContact:"Связаться",save:"Сохранить контакт",kPhone:"Телефон",copy:"копировать",
+  hHelp:"Чем помогаю",s1:"Оценка рисков и проверка проекта на мошеннические схемы до первого платежа",s2:"Выбор стратегии входа в страну: через первое лицо, министерство или самостоятельно",
+  s3:"Оптимизация бюджета и сроков запуска",s4:"Полевая безопасность и работа с местными командами",note:"Горный инженер и специалист по оценке бизнеса. Я консультирую и не управляю проектом за клиента.",
+  hBook:"Книга",coverPh:"обложка",bookT:"Африка без иллюзий",coverA:"Б. Алёшин",bookD:"Написана по личному опыту, а не по чужим отчётам: о том, как избежать ошибок, которые в Африке обходятся слишком дорого.",buy:"Где купить",
+  copied:"Скопировано",vcf:"Файл контакта скачается после размещения визитки на своём адресе"},
+ en:{photo:"photo placeholder",name:"Boris Aleshin",role:"Independent advisor on mining project launches in Africa",geo:"Sierra Leone · Uganda · Zimbabwe · South Sudan",
+  f1:"years in Africa",f2:"project countries",f3:"gold and diamonds",hContact:"Contact",save:"Save contact",kPhone:"Phone",copy:"copy",
+  hHelp:"How I help",s1:"Risk assessment and fraud-scheme screening before the first payment",s2:"Country entry strategy: via the head of state, a ministry, or independently",
+  s3:"Budget and timeline optimization for launch",s4:"Field safety and working with local teams",note:"Mining engineer and business valuation specialist. I advise; I don’t run the project for the client.",
+  hBook:"Book",coverPh:"cover",bookT:"Africa Without Illusions",coverA:"B. Aleshin",bookD:"Written from first-hand experience, not other people’s reports: how to avoid the mistakes that cost too much in Africa.",buy:"Where to buy",
+  copied:"Copied",vcf:"The contact file will download once the card is hosted at its own address"}
+};
+let lang="ru";
+function setLang(l){lang=l;document.documentElement.lang=l;
+  document.querySelectorAll("[data-i]").forEach(e=>{const v=T[l][e.dataset.i];if(v)e.textContent=v});
+  document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.lang===l)));
+  try{localStorage.setItem("lang",l)}catch(e){}}
+document.querySelectorAll(".lang button").forEach(b=>b.addEventListener("click",()=>setLang(b.dataset.lang)));
+try{const s=localStorage.getItem("lang");if(s&&T[s])setLang(s)}catch(e){}
+
+const toast=document.getElementById("toast");let tt;
+function say(m){toast.textContent=m;toast.hidden=false;clearTimeout(tt);tt=setTimeout(()=>toast.hidden=true,2600)}
+
+document.querySelectorAll(".copy").forEach(b=>b.addEventListener("click",()=>{
+  const el=document.getElementById(b.dataset.copy);const txt=el.textContent.trim();
+  const sel=()=>{const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r)};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(()=>say(T[lang].copied),sel)}else sel();
+}));
+
+/* vCard: fill real values before hosting */
+const VCARD=["BEGIN:VCARD","VERSION:3.0","N:Aleshin;Boris;;;","FN:Boris Aleshin / Борис Алёшин",
+ "TITLE:Independent mining advisor, Africa","TEL;TYPE=CELL:+0000000000","EMAIL:example@example.com",
+ "URL:https://www.linkedin.com/in/boris-aleshin-mining-advisor","END:VCARD"].join("\r\n");
+document.getElementById("save").addEventListener("click",()=>{
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([VCARD],{type:"text/vcard"}));
+  a.download="Boris-Aleshin.vcf";document.body.appendChild(a);a.click();a.remove();say(T[lang].vcf);
+});
+</script>
+</body>
+</html>
